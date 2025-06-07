@@ -1,3 +1,6 @@
++ DSE 3_03
++ Includes Custom Colour Maps to plot colours in vectors
++ Analysis of poles density for planes
 + DSE 3_02
 231114 Update to 2023b
 231114 Loading .ply with normals

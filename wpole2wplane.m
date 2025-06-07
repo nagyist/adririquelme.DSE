@@ -1,3 +1,5 @@
+
+
 function [ wplane ] = wpole2wplane( wpole )
 % wpole2wplane, Adrián Riquelme, abril 2013
 % función que toma el omega de un polo y lo convierte en en el omega del

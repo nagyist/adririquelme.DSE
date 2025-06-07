@@ -1,5 +1,13 @@
 function [ dmax, Xmax, Ymax ] = maxsearch2d( X,Y,density,tolerancia)
 % maxsearch2d, Adrián Riquelme, abril 2013
+% Se parte de un grid de nxn (2^nsec)
+% X e Y: Matriz nxn con la coordenada X e Y del punto del grid
+% density: Matriz nxn con el valor de la densidad de este punto
+% tolerancia: valor mínimo de densidad para aceptar un punto como máximo relativo
+% Output: 
+% - dmax, 
+% - xmax 
+% - ymax da los máximos relavitos en tres vectores
 %    {Search max value in a 2D matrix, first developed april 2013}
 %    Copyright (C) {2015}  {Adrián Riquelme Guill, adririquelme@gmail.com}
 %
@@ -27,7 +35,7 @@ function [ dmax, Xmax, Ymax ] = maxsearch2d( X,Y,density,tolerancia)
 % - X: coordenadas x de los valores. Matriz nxn
 % - Y: coordenadas y de los valores. Matriz nxn
 % - density: valores de la superficie. Matriz nxn
-% - tolerancia: % valor mínimo a de density para buscar el máximo, tanto
+% - tolerancia: % valor mínimo de density para buscar el máximo, tanto
 % por uno de la densidad máxima
 % Output:
 % - dmax: vector con los valores máximos encontrados

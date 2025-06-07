@@ -33,6 +33,21 @@ function [polos_estereoppalasignados, puntos_ppalasignados] = f_setppal2planes( 
 % - polos_estereoppalasignados: polos asociados a cada punto de P indicando
 % a qué familia pertenece
 
+    % Crear la figura de la ventana emergente
+    d = dialog('Position', [300, 300, 250, 150], 'Name', 'Aviso');
+
+    % Crear el texto del mensaje
+    uicontrol('Parent', d, ...
+              'Style', 'text', ...
+              'Position', [20, 80, 210, 40], ...
+              'String', 'Función obsoleta por no tener en cuenta proyección. Cambia a f_setppal2planes_v02');
+
+    % Crear el botón de OK
+    uicontrol('Parent', d, ...
+              'Position', [85, 20, 70, 25], ...
+              'String', 'OK', ...
+              'Callback', 'delete(gcf)');
+
 [np,~]=size(polos_estereo_cartesianas);
 [nppal,~]=size(polos_pples_cart);
 % calculamos el vector normal asociado a cada polo

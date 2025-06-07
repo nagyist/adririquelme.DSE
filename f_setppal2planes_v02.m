@@ -1,4 +1,4 @@
-function [polos_estereoppalasignados, puntos_ppalasignados] = f_setppal2planes_v02( cone, polos_estereo_cartesianas, polos_pples_cart ,P)
+function [polos_cartesianas_proyectadas_ppalasignados, puntos_ppalasignados] = f_setppal2planes_v02( cone, polos_cartesianas_proyectadas, polos_pples_cart ,P,proyeccion)
 %    {Function that searches for each plane the nearest principal plane}
 %    Copyright (C) {2015}  {Adrián Riquelme Guill, adririquelme@gmail.com}
 %
@@ -21,8 +21,8 @@ function [polos_estereoppalasignados, puntos_ppalasignados] = f_setppal2planes_v
 %    under certain conditions.
 % Input:
 % - cone: max angle between a pole and a principal pole, radians
-% - polos_estereo_cartesianas: matriz nx2 con las coordenadas x e y del 
-%   polo del vector normal al plano asociado al punto i, en el círculo de 
+% - polos_estereo_cartesianas: matriz nx2 con las coordenadas x e y del
+%   polo del vector normal al plano asociado al punto i, en el círculo de
 %   la falsilla
 % - polos_pples_cart: matriz con los polos principales en coordenadas
 %   cartesianas
@@ -31,14 +31,15 @@ function [polos_estereoppalasignados, puntos_ppalasignados] = f_setppal2planes_v
 % - puntos_ppalasignados: listado de coordenadas P con una 4º columna que
 % indica a qué polo principal (familia) ha sido asignado
 % - polos_estereoppalasignados: polos asociados a cada punto de P indicando
-% a qué familia pertenece
+% a qué familia pertenece. Si este valor es cero, es que no se le ha
+% asignado familia :D
 
-[np,~]=size(polos_estereo_cartesianas);
+[np,~]=size(polos_cartesianas_proyectadas);
 [nppal,~]=size(polos_pples_cart);
 % calculamos el vector normal asociado a cada polo
-[VectorNormal]=f_pole2vnor(polos_estereo_cartesianas);
+[VectorNormal]=f_pole2vnor_v02(polos_cartesianas_proyectadas,proyeccion);
 % calculamos el vector normal de cada polo principal
-[VectorNormalPrincipal]=f_pole2vnor(polos_pples_cart);
+[VectorNormalPrincipal]=f_pole2vnor_v02(polos_pples_cart,proyeccion);
 % calculamos el ángulo que forma cada polo con cada polo principal
 angulo_polo_principal=zeros(np,nppal);
 for ii=1:np
@@ -57,18 +58,18 @@ for ii=1:np
         angulo_polo_principal(ii,jj)=angulo;
     end
 end
-   
+
 % valor el menor ángulo y a qué plano principal
-[alphamin, pos] = min(angulo_polo_principal,[],2); 
+[alphamin, pos] = min(angulo_polo_principal,[],2);
 % pos es la posición de la familia a la que se le asigna
 % en polos_ppalasignados ponemos los polos y qué polo principal le toca
-polos_estereoppalasignados=zeros(np,3);
-polos_estereoppalasignados(:,1:2)=polos_estereo_cartesianas(:,1:2);
+polos_cartesianas_proyectadas_ppalasignados=zeros(np,3);
+polos_cartesianas_proyectadas_ppalasignados(:,1:2)=polos_cartesianas_proyectadas(:,1:2);
 
 % busco el polo principal para cada uno, y compruebo que el ángulo es menor
 % que el del cono
 I=find(alphamin<=cone);
-polos_estereoppalasignados(I,3)=pos(I);
+polos_cartesianas_proyectadas_ppalasignados(I,3)=pos(I);
 % los que no tienen polo principal se quedan con índice 0
 % para los puntos en coordenadas, le asignamos el polo principal que le
 % toca
@@ -85,9 +86,18 @@ if nppal>length(unique(pos))
     I=find(test_familias==0); % posición de familias sin asignar puntos
     for i=1:length(I)
         % tomo un punto sin asignar y le asigno esa familia
-        J=find(polos_estereoppalasignados(:,3)==0);
-        polos_estereoppalasignados(J(1),3)=familias(I(i));
-        puntos_ppalasignados(J(1),4)=familias(I(i));
+        % J=find(polos_estereoppalasignados(:,3)==0);
+        % polos_estereoppalasignados(J(1),3)=familias(I(i));
+        % puntos_ppalasignados(J(1),4)=familias(I(i));
+        % En este caso, la familia I no tiene puntos. Dar aviso y
+        % recomendar que la borre
+        % Configuración del mensaje y título
+        fig = uifigure('Position', [500, 500, 360, 180]); % Define tamaño del 'uifigure'
+        uialert(fig, ...
+            ['DS ', num2str(I(i)), ' is empty. Consider removing it.'], ...
+            "Invalid DS", ...
+            'Icon', 'info',...
+            'CloseFcn', @(src, event) close(fig)); % Cierra el uifigure
     end
 end
 end

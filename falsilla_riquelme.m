@@ -41,8 +41,10 @@ axis('square');
 alpha0 = 0:pi/6:(2*pi-pi/12);
 alpha = pi/2 - alpha0+pi;
 etiqueta = 0:360/12:(330);
-x = 1.2*cos(alpha);
-y = 1.2*sin(alpha);
+% Radio de la etiqueta. Si es 1 estará sobre el círculo, pon 1,1 o 1,2.
+radio_etiqueta=1.15;
+x = radio_etiqueta*cos(alpha);
+y = radio_etiqueta*sin(alpha);
 [~,n]=size(alpha);
 tamanyoangulos=12;
 for i=1:n

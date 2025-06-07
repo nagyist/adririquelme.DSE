@@ -1,5 +1,6 @@
 function [w,b]=vnor2vbuz_v02(ux,uy,uz)
-% Función de conversión vector normal a vector buzamiento del plano
+% Función de conversión vector normal a componentes dipdir y dip en
+% radianes (notación de Clar)
 % Adrián Riquelme, abril 2013
 % [w,b]=vnor2vbuz(ux,uy,uz)
 % Input:
@@ -7,8 +8,8 @@ function [w,b]=vnor2vbuz_v02(ux,uy,uz)
 % Output:
 % - w: Ángulo que forma el vector de buzamiento con el eje OY, considerado
 % como el norte
-% - b: Ángulo que forma la lÃ­nea de mÃ¡xima pendiente del plano con su
-% proyecciÃ³n horizontal.
+% - b: Ángulo que forma la lí­nea de máxima pendiente del plano con su
+% proyección horizontal.
 %    Copyright (C) {2015}  {Adrián Riquelme Guill, adririquelme@gmail.com}
 %
 %    This program is free software; you can redistribute it and/or modify
@@ -55,4 +56,5 @@ w(C4) = 2*pi - atan(abs(bx(C4)./by(C4)));
 
 b = atan(bz./bxy);
 
+% Los planos horizontales los corrijo
 w(bx==0 | by==0)=0;

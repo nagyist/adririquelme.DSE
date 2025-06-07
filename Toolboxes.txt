@@ -1,8 +1,11 @@
 Necesarios para DSE:
 
-Computer Vision Toolbox
+Computer Vision Toolbox --> ptClouds
 Statistics and Machine Learning Toolbox
+Signal processing Toolbox --> findpeaks
 Text Analytics Toolbox
+Global Optimization Toolbox --> Colores y optimización con GA
+
 
 Adicionales:
 Curve fitting toolbox

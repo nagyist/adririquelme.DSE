@@ -19,7 +19,7 @@ function output_txt = myupdatefcn(empt,event_obj)
 %    Discontinuity Set Extractor comes with ABSOLUTELY NO WARRANTY.
 %    This is free software, and you are welcome to redistribute it
 %    under certain conditions.
-% 
+% https://uk.mathworks.com/matlabcentral/answers/157879-how-to-pass-the-variables-to-data-cursor-s-updatefcn-datacursormode-in-matlab-guide
 
 pos = get(event_obj,'Position');
 x = pos(1);

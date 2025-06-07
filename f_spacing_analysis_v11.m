@@ -167,13 +167,15 @@ if ncs > 1 && max(D)~=min(D)
     espaciado=espaciado(ia,:);
     [~,ia]=unique(espaciado2D(:,4));
     espaciado2D=espaciado2D(ia,:);
-    
+    valores=espaciado(:,4);
+    cens = (valores>0);
     % calculamos la función de densidad con el kde
     if bandwidth == 0
-        [fdensidad, xgrid, optimalbandwidth]=ksdensity(espaciado(:,4));
+        % [fdensidad, xgrid, optimalbandwidth]=ksdensity(espaciado(:,4),'Support','positive','Censoring',cens,'Function','survivor''BoundaryCorrection','reflection');
+        [fdensidad, xgrid, optimalbandwidth]=ksdensity(espaciado(:,4),'Support','positive','BoundaryCorrection','reflection');
         ancho=optimalbandwidth;
     else
-        [fdensidad, xgrid]=ksdensity(espaciado(:,4),'width',bandwidth);
+        [fdensidad, xgrid]=ksdensity(espaciado(:,4),'width',bandwidth,'Support','positive','BoundaryCorrection','reflection');
         optimalbandwidth=0; ancho=bandwidth;
     end
 
@@ -229,7 +231,7 @@ if ncs > 1 && max(D)~=min(D)
     espaciado2D=espaciado2D(espaciado2D(:,4)>espaciadominimo,:);
 
     % calculo la función de densidad no paramétrica
-    [fdensidad2D, xgrid2D, ancho2D]=ksdensity(espaciado2D(:,4));
+    [fdensidad2D, xgrid2D, ancho2D]=ksdensity(espaciado2D(:,4),'Support','positive','BoundaryCorrection','reflection');
 
     % calculo los estadísticos del espaciado 2D:
     % Smin, Smax, Smean, Smode, Smaxdensity, Sstddev

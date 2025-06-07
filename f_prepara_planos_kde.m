@@ -3,9 +3,9 @@ function [polos_pples, polos_pples_cart, density, X, Y]=f_prepara_planos_kde(pol
 %% Función que busca los planos principales mediante la estimación de densidad de kernels
 % Se determinan los polos del vector normal al plano.
 % Input:
-% - polos_estereo_carterianas
-% - nsec
-% - angulovpples
+% - polos_estereo_carterianas: matriz nx2
+% - nsec: resolución de los bins
+% - angulovpples: en grados, máximo ángulo entre vectores principales
 % - maxpples: número máximo de planos principales que buscamos
 % Output:
 % - polos_pples(alfa(rd), beta(rd), fdensidad). Coordenadas polares
@@ -33,10 +33,29 @@ function [polos_pples, polos_pples_cart, density, X, Y]=f_prepara_planos_kde(pol
 %    This is free software, and you are welcome to redistribute it
 %    under certain conditions.
 
+% Me pongo un aviso de que tengo esta f colgada sin actualizar la
+% proyección
+d = dialog('Position', [300, 300, 250, 150], 'Name', 'Aviso');
+
+% Crear el texto del mensaje
+uicontrol('Parent', d, ...
+    'Style', 'text', ...
+    'Position', [20, 80, 210, 40], ...
+    'String', 'Tienes prepara_planos_kde sin proyección, cuidado. Cambia a v02');
+
+% Crear el botón de OK
+uicontrol('Parent', d, ...
+    'Position', [85, 20, 70, 25], ...
+    'String', 'OK', ...
+    'Callback', 'delete(gcf)');
+
 % Creamos la función de densidad mediante los kernels
 % nsec = input('Introduce el num de sectores a considerar.\nPotencia de 2: 2,4,8,16,32,64,128... \nRecomendable 64, 2^6=64: \n');
 densidadminima = 0.0001; %establezco la densidad mínima en tanto por uno
 [~,density,X,Y]=kde2d(polos_estereo_cartesianas,nsec);
+
+density=density/max(max(density));
+
 % Esta función busca los máximos relatios en los vértices. Se puede
 % mejorar.
 [ dmax, Xmax, Ymax ] = maxsearch2d( X,Y,density,densidadminima) ; 

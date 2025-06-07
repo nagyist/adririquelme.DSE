@@ -1,5 +1,5 @@
 function [ N ] = f_pole2vnor( varargin )
-% [ N ] = f_pole2vnor( varargin )
+% [ N ] = f_pole2vnor( poles_cart )
 % Function that converts stereographic coordinates of a plane pole into the
 % normal vector coordinates of the plane.
 % [N]=f_pole2vnor( poles_cart)
@@ -34,26 +34,40 @@ function [ N ] = f_pole2vnor( varargin )
 %    This is free software, and you are welcome to redistribute it
 %    under certain conditions.
 
+% Este código no usa la proyección, cuidado. Pongo un aviso
+    % Crear la figura de la ventana emergente
+    d = dialog('Position', [300, 300, 250, 150], 'Name', 'Aviso');
+
+    % Crear el texto del mensaje
+    uicontrol('Parent', d, ...
+              'Style', 'text', ...
+              'Position', [20, 80, 210, 40], ...
+              'String', 'Función obsoleta, cambia pole2vnor a pole2vnor_v02 que usa la proyección.');
+
+    % Crear el botón de OK
+    uicontrol('Parent', d, ...
+              'Position', [85, 20, 70, 25], ...
+              'String', 'OK', ...
+              'Callback', 'delete(gcf)');
 
 %% desarrollo del programa
-% inicializamos las variables
+% Inicio las variables
 switch nargin
     case 1
+        % Me pasas las coordenadas de los polos como un vector
         P=varargin{1};
         px=P(:,1);
         py=P(:,2);
     case 2
+        % Me pasas las coordenadas de los polos una a una, en px y py
         px=varargin{1};
         py=varargin{2};
 end
 avn=zeros(size(px)); %angulo vector normal
-% rho=zeros(size(px));
-% phi=zeros(size(px));
-% beta=zeros(size(px));
-% alpha=zeros(size(px));
-% nxy=zeros(size(px));
-% omega=zeros(size(alpha));
-% calculamos los parámetros
+
+% Primero tengo que ver si el polo está dentro del círculo. Podría ser que
+% al ser un punto de contorno, por error de precisión se quedara fuera del
+% estereograma. Esto lo detecto porque el radio sería mayor a 1.
 
 I=find(px>0 & py>0);
     %a(I)=atan(py./px);
@@ -66,6 +80,8 @@ I=find(px<0 & py<=0);
 I=find(px>=0 & py<0);
     avn(I)=pi-atan(-py(I)./px(I));
 rho = (px.^2+py.^2).^(0.5);
+% verifico si el radio es mayor a 1 y lo dejo en 1
+rho(rho>1)=1;
 phi = atan(rho);
 beta = 2*phi;
 

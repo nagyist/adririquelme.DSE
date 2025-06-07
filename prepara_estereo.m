@@ -7,7 +7,7 @@ function [planos_estereo]=prepara_estereo(planos)
 % columnas. En la primera columna se encuentra el valor de w y en la
 % segunda el de b
 % input
-% - planos: matriz que contiene la ecuación de cada plano, ABCD
+% - planos: matriz que contiene la ecuación de cada plano, ABC
 % output
 % - planos_estereo: matriz que contiene los datos de los vectores de
 % buzamiento de los planos, en forma w y b

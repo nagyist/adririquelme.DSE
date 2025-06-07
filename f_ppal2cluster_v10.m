@@ -60,8 +60,7 @@ nf=max(familia);
 % Primero vemos si uso o no del Computer Vision Toolbox de MATLAB
 version=ver;
 toolboxes={version.Name};
-uso=length(find(contains(toolboxes,'Statistics and Machine Learning Toolbox')==1));
-if uso==1
+if isscalar(find(contains(toolboxes,'Statistics and Machine Learning Toolbox')==1))
     % El toolbox está instalado, vamos a ver si es la versión que tiene
     % el dbscan
     if str2double(getfield(version,{find(contains(toolboxes,'Statistics and Machine Learning Toolbox')==1)},'Version'))>=11.5

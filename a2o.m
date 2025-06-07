@@ -1,5 +1,7 @@
-function [ omega ] = a2o( alfa )
+function [ omega ] = a2o( alpha )
 % Función que convierte el ángulo alfa de los polos
+% Alpha es el ángulo que forma con el OX en antihorario
+% Omega es el ángulo que forma respecto al OY en horario
 %    Copyright (C) {2015}  {Adrián Riquelme Guill, adririquelme@gmail.com}
 %
 %    This program is free software; you can redistribute it and/or modify
@@ -20,25 +22,10 @@ function [ omega ] = a2o( alfa )
 %    This is free software, and you are welcome to redistribute it
 %    under certain conditions.
 %  
-omega=zeros(size(alfa));
-I=find(alfa>=0 & alfa<=pi/2); omega(I)=pi/2-alfa(I);
-I=find(alfa>pi/2 & alfa <pi);omega(I)=2*pi-(alfa(I)-pi/2);
-I=find(alfa>=pi & alfa<3*pi/2);omega(I)=2*pi-(alfa(I)-pi/2);
-I=find(alfa>=3*pi/2 & alfa<2*pi);omega(I)=pi/2+(2*pi-alfa(I));
-
-% if alfa>=0 && alfa<pi/2
-%     omega = pi/2-alfa;
-% else
-%     if alfa >=pi/2 && alfa <pi
-%         omega=2*pi-(alfa-pi/2);
-%     else
-%         if alfa>=pi && alfa<3*pi/2
-%             omega=2*pi-(alfa-pi/2);
-%         else
-%             omega=pi/2+(2*pi-alfa);
-%         end
-%     end
-% end
-
+omega=zeros(size(alpha));
+I=find(alpha>=0 & alpha<=pi/2); omega(I)=pi/2-alpha(I);
+I=find(alpha>pi/2 & alpha <pi);omega(I)=2*pi-(alpha(I)-pi/2);
+I=find(alpha>=pi & alpha<3*pi/2);omega(I)=2*pi-(alpha(I)-pi/2);
+I=find(alpha>=3*pi/2 & alpha<2*pi);omega(I)=pi/2+(2*pi-alpha(I));
 end
 
